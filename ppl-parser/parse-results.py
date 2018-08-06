@@ -1,17 +1,24 @@
 from selenium import webdriver
 from pymongo import MongoClient
+import ConfigParser
 import sys
+
+config = ConfigParser.RawConfigParser()
+config.read('settings.cfg')
+
+mongo_uri = config.get('parse-results', 'mongo_uri')
+db_name = config.get('parse-results', 'db_name')
+collection_name = config.get('parse-results', 'collection_name')
+base_url = config.get('parse-results', 'base_url')
+season_id = config.get('parse-results', 'season_id')
 
 options = webdriver.ChromeOptions()
 options.add_argument('headless')
 driver = webdriver.Chrome(chrome_options=options)
 
-client = MongoClient('mongodb://localhost:27017')
-db = client['ppl_data']
-collection = db['game_results']
-
-base_url = 'http://ppl.league.papa.org/meetResults'
-season_id = '14'
+client = MongoClient(mongo_uri)
+db = client[db_name]
+collection = db[collection_name]
 
 week_ids = range(1, 10)
 for week_id in week_ids:
