@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import {
+  BrowserRouter as Router,
+  Route
+} from 'react-router-dom';
 import './App.css';
-import ResultTable from './ResultTable.jsx';
-import Grid from '@material-ui/core/Grid';
+import NavigationBar from './components/NavigationBar.jsx';
+import Home from './pages/Home.jsx';
+import Results from './pages/Results.jsx';
+import Standings from './pages/Standings.jsx';
+import Stats from './pages/Stats.jsx';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
@@ -17,44 +23,17 @@ const styles = theme => ({
 });
 
 class App extends Component {
-  // render() {
-  //   return (
-  //     <div className="App">
-  //       <header className="App-header">
-  //         <img src={logo} className="App-logo" alt="logo" />
-  //         <h1 className="App-title">Welcome to React</h1>
-  //       </header>
-  //       <p className="App-intro">
-  //         To get started, edit <code>src/App.js</code> and save to reload.
-  //       </p>
-  //     </div>
-  //   );
-  // }
-  state = {results: []}
-
-  fetchData(season_id, week_id) {
-    fetch('/results/' + season_id + '/' + week_id)
-      .then(res => res.json())
-      .then(results => this.setState({ results }))
-      .then(console.log(this.state));
-  }
-
-  componentDidMount() {
-    this.fetchData(14,1);
-  }
-
   render() {
     return (
-      <div className="App">
-        <h1>Results</h1>
-        <Grid container spacing={24}>
-        {this.state.results.map(group =>
-          <Grid item xs={12}>
-            <ResultTable data={group} />
-          </Grid>
-        )}
-        </Grid>
-      </div>
+      <Router>
+        <div className="App">
+          <NavigationBar />
+          <Route exact path="/" component={Home} />
+          <Route exact path="/results" component={Results} />
+          <Route exact path="/standings" component={Standings} />
+          <Route exact path="/stats" component={Stats} />
+        </div>
+      </Router>
     );
   }
 }
