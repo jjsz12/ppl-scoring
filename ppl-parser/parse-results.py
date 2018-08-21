@@ -3,29 +3,34 @@ from pymongo import MongoClient
 import ConfigParser
 import sys
 
+# read settings file
 config = ConfigParser.RawConfigParser()
 config.read('settings.cfg')
-
 mongo_uri = config.get('parse-results', 'mongo_uri')
 db_name = config.get('parse-results', 'db_name')
 collection_name = config.get('parse-results', 'collection_name')
 base_url = config.get('parse-results', 'base_url')
 season_id = config.get('parse-results', 'season_id')
 
+# headless browser driver setup
 options = webdriver.ChromeOptions()
 options.add_argument('headless')
 driver = webdriver.Chrome(chrome_options=options)
 
+# database connection setup
 client = MongoClient(mongo_uri)
 db = client[db_name]
 collection = db[collection_name]
 
+# nine weeks per season
 week_ids = range(1, 10)
 for week_id in week_ids:
     url = base_url + '/' + season_id + '/' + str(week_id)
     driver.get(url)
+    # get the results tables for each group per week
     results = driver.find_elements_by_xpath("//table[@class='matchResults']")
     for element in results:
+        # get the list of players, group number, location, and list of games
         players_table = element.find_element_by_xpath(".//table[@class='matchResultsPlayers']")
         players = players_table.find_elements_by_xpath(".//td[@class='playerName']")
         group_id_text = element.find_element_by_xpath(".//th[@class='header1 noBorder']").text
@@ -36,11 +41,14 @@ for week_id in week_ids:
         stat = [season_id, week_id, group_id, location, len(players)]
         print 'Season: {}, Week: {}, Group: {}, Location: {}, Player Count: {}'.format(*stat)
         for game_index, game_value in enumerate(games, start=1):
+            # for each game, get the list of scores and list of points
             game_name = game_value.find_element_by_xpath(".//th[@class='header1']").text
             scores = game_value.find_elements_by_xpath(".//td[contains(@class, 'machineScoreField')]")
             points = game_value.find_elements_by_xpath(".//td[contains(@class, 'leaguePointsField')]")
 
             for player_index, player_value in enumerate(players):
+                # insert document in mongo for each player
+                # include their corresponding score and points earned for current game
                 document = dict()
                 document['season_id'] = int(season_id)
                 document['week_id'] = int(week_id)
@@ -56,7 +64,10 @@ for week_id in week_ids:
                 # sys.exit(1)
                 collection.insert_one(document)
 
-# create view for results table (used in ppl-express)
+# end driver session
+driver.quit()
+
+# create view for results table (used for results page in ppl-express)
 db.command(
     'create',
     'match_groups',
