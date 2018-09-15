@@ -8,9 +8,11 @@ config = ConfigParser.RawConfigParser()
 config.read('settings.cfg')
 mongo_uri = config.get('parse-results', 'mongo_uri')
 db_name = config.get('parse-results', 'db_name')
-collection_name = config.get('parse-results', 'collection_name')
+base_collection_name = config.get('parse-results', 'base_collection_name')
 base_url = config.get('parse-results', 'base_url')
 season_id = config.get('parse-results', 'season_id')
+results_collection = config.get('parse-results', 'results_collection')
+standings_collection = config.get('parse-results', 'standings_collection')
 
 # headless browser driver setup
 options = webdriver.ChromeOptions()
@@ -20,7 +22,7 @@ driver = webdriver.Chrome(chrome_options=options)
 # database connection setup
 client = MongoClient(mongo_uri)
 db = client[db_name]
-collection = db[collection_name]
+collection = db[base_collection_name]
 
 # nine weeks per season
 week_ids = range(1, 10)
@@ -67,41 +69,107 @@ for week_id in week_ids:
 # end driver session
 driver.quit()
 
-# create view for results table (used for results page in ppl-express)
+# create results table view
 db.command(
     'create',
-    'match_groups',
-    viewOn='game_results',
-    pipeline=[{
-            '$group':{
-                '_id':{
-                    'season_id':'$season_id',
-                    'week_id':'$week_id',
-                    'group_id':'$group_id',
-                    'position':'$position'
+    results_collection,
+    viewOn=base_collection_name,
+    pipeline=[
+        {
+            '$sort': {
+                'season_id': 1,
+                'week_id': 1,
+                'group_id': 1,
+                'position': 1,
+                'game_id': 1
+            }
+        },
+        {
+            '$group': {
+                '_id': {
+                    'season_id': '$season_id',
+                    'week_id': '$week_id',
+                    'group_id': '$group_id',
+                    'position': '$position'
                 },
-                'player':{'$first':'$player'},
-                'location':{'$first':'$location'},
-                'scores':{
-                    '$push':{
-                        'game_id':'$game_id',
-                        'game_name':'$game_name',
-                        'score':'$score',
-                        'points':'$points'
+                'player': { '$first': '$player' },
+                'location': { '$first': '$location' },
+                'scores': {
+                    '$push': {
+                        'score': '$score',
+                        'points': '$points'
+                    }
+                },
+                'games': {
+                    '$push': '$game_name'
+                }
+            }
+        },
+        {
+            '$sort': {
+                '_id': 1
+            }
+        },
+        {
+            '$group': {
+                '_id': {
+                    'season_id': '$_id.season_id',
+                    'week_id': '$_id.week_id',
+                    'group_id': '$_id.group_id'
+                },
+                'location': { '$first': '$location' },
+                'games': { '$first': '$games' },
+                'results': {
+                    '$push': {
+                        'player': '$player',
+                        'scores': '$scores'
                     }
                 }
             }
         },
         {
-            '$project': {
-                'season_id': '$_id.season_id',
-                'week_id': '$_id.week_id',
-                'group_id': '$_id.group_id',
-                'position': '$_id.position',
-                'player': 1,
-                'scores': 1,
-                'location': 1,
-                '_id': 0
+            '$sort': {
+                '_id': 1
             }
-        }]
+        }
+    ]
+)
+
+# create view for standings page
+db.command(
+    'create',
+    standings_collection,
+    viewOn=base_collection_name,
+    pipeline=[
+        {
+            '$group': {
+                '_id': {
+                    'season_id': '$season_id',
+                    'player': '$player',
+                    'week_id': '$week_id'
+                },
+                'week_points': {'$sum': '$points'}
+            }
+        },
+        {
+            '$sort': {'_id.season_id': 1, '_id.week_id': 1}
+        },
+        {
+            '$group': {
+                '_id': {
+                    'season_id': '$_id.season_id',
+                    'player': '$_id.player'
+                },
+                'total_points': {'$sum': '$week_points'},
+                'average_points': {'$avg': '$week_points'},
+                'points': {'$push': {
+                    'week_id': '$_id.week_id',
+                    'points': '$week_points'
+                }}
+            }
+        },
+        {
+            '$sort': {'total_points': -1}
+        }
+    ]
 )

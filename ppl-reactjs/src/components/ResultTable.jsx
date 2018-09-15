@@ -13,10 +13,10 @@ class ResultTable extends Component {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Group {this.props.data._id} ({this.props.data.location})</TableCell>
-              <TableCell colSpan={2}>{this.props.data.scores[0].scores[0].game_name}</TableCell>
-              <TableCell colSpan={2}>{this.props.data.scores[0].scores[1].game_name}</TableCell>
-              <TableCell colSpan={2}>{this.props.data.scores[0].scores[2].game_name}</TableCell>
+              <TableCell>Group {this.props.data._id.group_id} ({this.props.data.location})</TableCell>
+              <TableCell colSpan={2}>{this.props.data.games[0]}</TableCell>
+              <TableCell colSpan={2}>{this.props.data.games[1]}</TableCell>
+              <TableCell colSpan={2}>{this.props.data.games[2]}</TableCell>
               <TableCell></TableCell>
             </TableRow>
             <TableRow>
@@ -31,24 +31,28 @@ class ResultTable extends Component {
             </TableRow>
           </TableHead>
           <TableBody>
-            {this.props.data.scores.map(n => {
-              let totalPoints = 0;
-              return (
-                <TableRow>
-                  <TableCell>{n.player}</TableCell>
-                    {n.scores.map(s => {
-                      totalPoints += s.points;
-                      return (
-                        <React.Fragment>
-                          <TableCell>{s.score}</TableCell>
-                          <TableCell>{s.points}</TableCell>
-                        </React.Fragment>
-                      );
-                    })}
-                  <TableCell>{totalPoints}</TableCell>
-                </TableRow>
-              );
-            })}
+            {
+              this.props.data.results.map(i => {
+                let totalPoints = 0;
+                return (
+                  <TableRow>
+                    <TableCell>{i.player}</TableCell>
+                    {
+                      i.scores.map(j => {
+                        totalPoints += j.points;
+                        return (
+                          <React.Fragment>
+                            <TableCell>{j.score}</TableCell>
+                            <TableCell>{j.points}</TableCell>
+                          </React.Fragment>
+                        );
+                      })
+                    }
+                    <TableCell>{totalPoints}</TableCell>
+                  </TableRow>
+                );
+              })
+            }
           </TableBody>
         </Table>
       </Paper>

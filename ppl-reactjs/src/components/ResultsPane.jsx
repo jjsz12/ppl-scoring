@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import ResultTable from './ResultTable.jsx';
 import Paper from '@material-ui/core/Paper';
 
-class ResultsGrid extends Component {
+class ResultsPane extends Component {
   render() {
     if (this.props.results.length !== 0) {
       return (
@@ -23,4 +23,4 @@ class ResultsGrid extends Component {
   }
 }
 
-export default ResultsGrid;
+export default ResultsPane;
