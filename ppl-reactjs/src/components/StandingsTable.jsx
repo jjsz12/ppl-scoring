@@ -10,7 +10,7 @@ class StandingsTable extends Component {
   render() {
     return (
       <Paper>
-        <Table>
+        <Table padding="dense">
           <TableHead>
             <TableRow>
               <TableCell>Player Name</TableCell>

@@ -11,12 +11,13 @@ class SeasonSelect extends Component {
         <InputLabel>Season</InputLabel>
         <NativeSelect
           value={this.props.value}
-          defaultValue={14}
           onChange={this.props.onChange}
           input={<Input name="season" id="season-native" />}
         >
           <option vaule={13}>13</option>
           <option vaule={14}>14</option>
+          <option vaule={15}>15</option>
+          <option vaule={16}>16</option>
         </NativeSelect>
       </FormControl>
     );

@@ -1,39 +1,103 @@
 import React, { Component } from 'react';
 import SeasonSelect from '../components/SeasonSelect.jsx';
-import Filter from '../components/Filter.jsx';
+import WeeksPlayedFilter from '../components/WeeksPlayedFilter.jsx';
 import StandingsTable from '../components/StandingsTable.jsx';
+import StandingsTableSemantic from '../components/StandingsTableSemantic.jsx';
+import _ from 'lodash';
+import { pop_colors_standings } from '../util';
 
 class Standings extends Component {
   constructor(props) {
     super(props);
     this.state = {
       standings: [],
-      season: 14
+      season: 15,
+      min_weeks: 1
     };
   }
 
   fetchData() {
     fetch('/standings/' + this.state.season)
       .then(res => res.json())
-      .then(standings => this.setState({ standings: standings }))
-      .then(console.log(this.state));
+      .then(standings => {
+        return standings.map((item, index) => {
+          item.seed = index+1;
+          return item;
+        });
+      })
+      .then(standings => {
+        return pop_colors_standings(standings);
+      })
+      .then(standings => {
+        return standings.map(item => {
+          if (item.weeks_played < this.state.min_weeks) {
+            item.hidden = true;
+          } else {
+            item.hidden = false;
+          }
+          return item;
+        });
+      })
+      .then(standings => {
+        console.log(standings);
+        return standings;
+      })
+      .then(standings => this.setState({ standings: standings }));
   }
 
   componentDidMount() {
     this.fetchData();
   }
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value }, this.fetchData);
   };
+
+  handleFilterChange = (e, { value }) => {
+    let newStandings = this.state.standings.map(item => {
+      if (item.weeks_played < value) {
+        item.hidden = true;
+      } else {
+        item.hidden = false;
+      }
+      return item;
+    });
+    console.log(newStandings);
+    this.setState({ min_weeks: value, standings: newStandings });
+  }
+
+  sortStandings = (accessorFunction) => {
+    this.setState({
+      standings: _.orderBy(this.state.standings, [accessorFunction], ['desc'])
+    });
+  }
+
+  reverseStandings = () => {
+    this.setState({
+      standings: this.state.standings.reverse()
+    });
+  }
 
   render() {
     return (
       <div>
         <h1>Standings</h1>
-        <SeasonSelect value={this.state.season} onChange={this.handleChange} />
-        <Filter />
-        <StandingsTable standings={this.state.standings} />
+        <SeasonSelect
+          value={this.state.season}
+          onChange={this.handleChange}
+        />
+        <WeeksPlayedFilter
+          value={this.state.min_weeks}
+          onChange={this.handleFilterChange}
+        />
+        {
+          //<StandingsTable standings={this.state.standings} />
+        }
+        <StandingsTableSemantic
+          standings={this.state.standings}
+          sortFunction={this.sortStandings}
+          reverseFunction={this.reverseStandings}
+        />
       </div>
     );
   }

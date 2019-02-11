@@ -10,7 +10,7 @@ class ResultTable extends Component {
   render() {
     return (
       <Paper>
-        <Table>
+        <Table padding="dense">
           <TableHead>
             <TableRow>
               <TableCell>Group {this.props.data._id.group_id} ({this.props.data.location})</TableCell>

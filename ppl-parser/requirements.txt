@@ -1,2 +1,2 @@
 selenium==3.13.0
-pymongo==3.6.1
+pymongo==3.7.1

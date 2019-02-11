@@ -10,7 +10,7 @@ class Results extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.state = {
       results: [],
-      season: 14,
+      season: 15,
       week: 1
     };
   }
@@ -18,8 +18,7 @@ class Results extends Component {
   fetchData() {
     fetch('/results/' + this.state.season + '/' + this.state.week)
       .then(res => res.json())
-      .then(results => this.setState({ results: results }))
-      .then(console.log(this.state));
+      .then(results => this.setState({ results: results }));
   }
 
   componentDidMount() {

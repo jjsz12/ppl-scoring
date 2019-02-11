@@ -11,7 +11,6 @@ class WeekSelect extends Component {
         <InputLabel>Week</InputLabel>
         <NativeSelect
           value={this.props.value}
-          defaultValue={1}
           onChange={this.props.onChange}
           input={<Input name="week" id="week-native" />}
         >
