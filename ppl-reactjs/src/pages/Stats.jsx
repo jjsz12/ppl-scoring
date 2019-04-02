@@ -16,7 +16,8 @@ class Stats extends Component {
   }
 
   fetchData() {
-    fetch('/stats/' + this.state.season)
+    console.log('Fetching: ' + process.env.REACT_APP_RELATIVE_PATH + '/stats/' + this.state.season)
+    fetch(process.env.REACT_APP_RELATIVE_PATH + '/stats/' + this.state.season)
       .then(res => res.json())
       .then(stats => {
         return stats.map((item, index) => {

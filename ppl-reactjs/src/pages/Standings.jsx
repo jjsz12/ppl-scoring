@@ -17,7 +17,8 @@ class Standings extends Component {
   }
 
   fetchData() {
-    fetch('/standings/' + this.state.season)
+    console.log('Fetching: ' + process.env.REACT_APP_RELATIVE_PATH + '/standings/' + this.state.season);
+    fetch(process.env.REACT_APP_RELATIVE_PATH + '/standings/' + this.state.season)
       .then(res => res.json())
       .then(standings => {
         return standings.map((item, index) => {
@@ -37,10 +38,6 @@ class Standings extends Component {
           }
           return item;
         });
-      })
-      .then(standings => {
-        console.log(standings);
-        return standings;
       })
       .then(standings => this.setState({ standings: standings }));
   }

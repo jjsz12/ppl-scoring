@@ -16,7 +16,8 @@ class Results extends Component {
   }
 
   fetchData() {
-    fetch('/results/' + this.state.season + '/' + this.state.week)
+    console.log('Fetching: ' + process.env.REACT_APP_RELATIVE_PATH + '/results/' + this.state.season + '/' + this.state.week);
+    fetch(process.env.REACT_APP_RELATIVE_PATH + '/results/' + this.state.season + '/' + this.state.week)
       .then(res => res.json())
       .then(results => this.setState({ results: results }));
   }
