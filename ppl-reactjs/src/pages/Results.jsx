@@ -10,8 +10,8 @@ class Results extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.state = {
       results: [],
-      season: 15,
-      week: 1
+      season: 16,
+      week: 9
     };
   }
 

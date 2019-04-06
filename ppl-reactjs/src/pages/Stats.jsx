@@ -10,7 +10,7 @@ class Stats extends Component {
     super(props);
     this.state = {
       stats: [],
-      season: 15,
+      season: 16,
       min_weeks: 3
     };
   }
@@ -86,6 +86,7 @@ class Stats extends Component {
           onChange={this.handleFilterChange}
         />
         <StatsTable
+          season={this.state.season}
           stats={this.state.stats}
           sortFunction={this.sortTable}
           reverseFunction={this.reverseTable}

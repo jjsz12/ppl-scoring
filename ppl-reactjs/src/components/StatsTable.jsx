@@ -10,6 +10,15 @@ class StatsTable extends Component {
     };
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.season !== this.props.season) {
+      this.setState({
+        column: 'adjusted_points',
+        direction: 'descending'
+      })
+    }
+  }
+
   handleSort = (clickedColumn, accessorFunction) => () => {
     const { column, direction } = this.state;
 

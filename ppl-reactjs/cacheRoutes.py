@@ -2,7 +2,7 @@ import requests
 import os
 
 base_url = 'http://localhost:3001'
-seasons = range(13,17)
+seasons = range(5,17)
 weeks = range(1,10)
 stats_route = '/stats/{season}'
 standings_route = '/standings/{season}'
