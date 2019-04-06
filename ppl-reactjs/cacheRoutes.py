@@ -7,6 +7,7 @@ weeks = range(1,10)
 stats_route = '/stats/{season}'
 standings_route = '/standings/{season}'
 results_route = '/results/{season}/{week}'
+dates_route = '/dates/seasons'
 
 def save(route):
     print 'Caching data route: {}'.format(route)
@@ -21,6 +22,9 @@ if not os.path.exists('build/standings'):
     os.makedirs('build/standings')
 if not os.path.exists('build/results'):
     os.makedirs('build/results')
+if not os.path.exists('build/dates'):
+    os.makedirs('build/dates')
+    save(dates_route)
 
 for season in seasons:
     save(stats_route.format(season=season))

@@ -33,6 +33,33 @@ router.get('/standings/:season_id', function(req, res, next) {
   });
 });
 
+router.get('/dates', function(req, res, next) {
+  console.log(req.params);
+  var collection = this.db.collection('dates');
+  result = collection
+    .find()
+    .toArray(function(err, items) {
+      res.send(items);
+    });
+});
+
+router.get('/dates/seasons', function(req, res, next) {
+  console.log(req.params);
+  var collection = this.db.collection('dates');
+  result = collection
+    .aggregate([
+      { '$group': {
+          '_id': '$season_id',
+          'start': { '$first':'$_id' },
+          'end': { '$last':'$_id' }
+      } },
+      { '$sort': { '_id': 1 } }
+    ])
+    .toArray(function(err, items) {
+      res.send(items);
+    });
+});
+
 router.get('/stats/:season_id', function(req, res, next) {
   console.log(req.params);
   var collection = this.db.collection('stats');

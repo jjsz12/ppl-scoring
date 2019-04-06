@@ -5,6 +5,24 @@ import FormControl from '@material-ui/core/FormControl';
 import NativeSelect from '@material-ui/core/NativeSelect';
 
 class SeasonSelect extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dates: []
+    };
+  }
+
+  fetchData() {
+    console.log('Fetching: ' + process.env.REACT_APP_RELATIVE_PATH + '/dates/seasons')
+    fetch(process.env.REACT_APP_RELATIVE_PATH + '/dates/seasons')
+      .then(res => res.json())
+      .then(dates => this.setState({ dates: dates }));
+  }
+
+  componentDidMount() {
+    this.fetchData();
+  }
+
   render() {
     return (
       <FormControl>
@@ -14,18 +32,15 @@ class SeasonSelect extends Component {
           onChange={this.props.onChange}
           input={<Input name="season" id="season-native" />}
         >
-          <option vaule={5}>5</option>
-          <option vaule={6}>6</option>
-          <option vaule={7}>7</option>
-          <option vaule={8}>8</option>
-          <option vaule={9}>9</option>
-          <option vaule={10}>10</option>
-          <option vaule={11}>11</option>
-          <option vaule={12}>12</option>
-          <option vaule={13}>13</option>
-          <option vaule={14}>14</option>
-          <option vaule={15}>15</option>
-          <option vaule={16}>16</option>
+          {
+            this.state.dates.map(item => {
+              return (
+                <option value={ item._id } key={ item._id }>
+                  { item._id } -- ({ item.start } - { item.end })
+                </option>
+              );
+            })
+          }
         </NativeSelect>
       </FormControl>
     );
