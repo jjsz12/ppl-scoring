@@ -4,7 +4,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
 class NavigationBar extends Component {
@@ -27,6 +26,9 @@ class NavigationBar extends Component {
             </Link>
             <Link to="/stats">
               <Button color="inherit">Stats</Button>
+            </Link>
+            <Link to="/players">
+              <Button color="inherit">Players</Button>
             </Link>
           </Toolbar>
         </AppBar>

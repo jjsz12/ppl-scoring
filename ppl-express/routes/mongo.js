@@ -60,6 +60,16 @@ router.get('/dates/seasons', function(req, res, next) {
     });
 });
 
+router.get('/players', function(req, res, next) {
+  console.log(req.params);
+  var collection = this.db.collection('stats');
+  result = collection
+    .distinct("player", {})
+    .then(function(arr) {
+      res.send(arr);
+    });
+});
+
 router.get('/stats/:season_id', function(req, res, next) {
   console.log(req.params);
   var collection = this.db.collection('stats');
