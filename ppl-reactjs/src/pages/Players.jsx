@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PlayerSelect from '../components/PlayerSelect.jsx';
+import PlayerSeasonsTable from '../components/PlayerSeasonsTable.jsx';
 
 class Players extends Component {
   constructor(props) {
@@ -43,6 +44,7 @@ class Players extends Component {
           onChange={this.handlePlayerSelect}
         />
         <h5>{this.state.selected}</h5>
+        <PlayerSeasonsTable player={this.state.selected} />
       </div>
     );
   }

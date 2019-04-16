@@ -64,9 +64,50 @@ router.get('/players', function(req, res, next) {
   console.log(req.params);
   var collection = this.db.collection('stats');
   result = collection
-    .distinct("player", {})
-    .then(function(arr) {
-      res.send(arr);
+    .aggregate([
+      { '$group': {
+        '_id': '$player'
+      } },
+      { '$sort': { '_id': 1 } }
+    ])
+    .toArray(function(err, items) {
+      res.send(items.map(item => item._id));
+    });
+});
+
+router.get('/player/:player', function(req, res, next) {
+  console.log(req.params);
+  var collection = this.db.collection('stats');
+  result = collection.aggregate([
+    { '$match': { 'player': req.params.player } },
+    { '$lookup': {
+      from: 'standings',
+      let: { 'player': '$player', 'season_id': '$season_id' },
+      pipeline: [{
+        $match: {
+          $expr: {
+            $and: [
+              {
+                $eq: [
+                  "$_id.player",
+                  "$$player"
+                ]
+              },
+              {
+                $eq: [
+                  "$_id.season_id",
+                  "$$season_id"
+                ]
+              }
+            ]
+          }
+        }
+      }],
+      as: 'points'
+    } },
+  ]).sort({"season_id": 1})
+    .toArray(function(err, items) {
+      res.send(items);
     });
 });
 
