@@ -20,11 +20,15 @@ class Stats extends Component {
     fetch(process.env.REACT_APP_RELATIVE_PATH + '/stats/' + this.state.season)
       .then(res => res.json())
       .then(stats => {
-        return stats.map((item, index) => {
-          item.seed = index+1;
-          return item;
-        });
+        console.log(stats);
+        return stats;
       })
+      // .then(stats => {
+      //   return stats.map((item, index) => {
+      //     item.seed = index+1;
+      //     return item;
+      //   });
+      // })
       .then(stats => {
         return pop_colors_stats(stats);
       })

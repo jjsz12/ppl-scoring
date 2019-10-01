@@ -77,38 +77,49 @@ router.get('/players', function(req, res, next) {
 
 router.get('/player/:player', function(req, res, next) {
   console.log(req.params);
-  var collection = this.db.collection('stats');
-  result = collection.aggregate([
-    { '$match': { 'player': req.params.player } },
-    { '$lookup': {
-      from: 'standings',
-      let: { 'player': '$player', 'season_id': '$season_id' },
-      pipeline: [{
-        $match: {
-          $expr: {
-            $and: [
-              {
-                $eq: [
-                  "$_id.player",
-                  "$$player"
-                ]
-              },
-              {
-                $eq: [
-                  "$_id.season_id",
-                  "$$season_id"
-                ]
-              }
-            ]
+  let standings_collection = this.db.collection('standings')
+  standings_collection.aggregate([
+    { '$sort': { 'adjusted_points': -1 } },
+    { '$group': { _id: '$_id.season_id', ranking: { '$push': '$_id.player' } } },
+    { '$project': { 'rank': { '$indexOfArray': ['$ranking', req.params.player] } } }
+  ]).toArray((err, rankings) => {
+    var collection = this.db.collection('stats');
+    collection.aggregate([
+      { '$match': { 'player': req.params.player } },
+      { '$lookup': {
+        from: 'standings',
+        let: { 'player': '$player', 'season_id': '$season_id' },
+        pipeline: [{
+          $match: {
+            $expr: {
+              $and: [
+                {
+                  $eq: [
+                    "$_id.player",
+                    "$$player"
+                  ]
+                },
+                {
+                  $eq: [
+                    "$_id.season_id",
+                    "$$season_id"
+                  ]
+                }
+              ]
+            }
           }
-        }
-      }],
-      as: 'points'
-    } },
-  ]).sort({"season_id": 1})
-    .toArray(function(err, items) {
-      res.send(items);
+        }],
+        as: 'points'
+      } },
+    ]).sort({"season_id": 1}).toArray((err, items) => {
+      res.send(items.map(item => {
+        let rank = rankings.find(o => o._id === item.season_id);
+        item.seed = rank.rank + 1;
+        return item;
+      }));
     });
+  });
+
 });
 
 router.get('/stats/:season_id', function(req, res, next) {
@@ -143,7 +154,10 @@ router.get('/stats/:season_id', function(req, res, next) {
     } },
     { '$sort': { 'points.adjusted_points': -1 } }
   ]).toArray(function(err, items) {
-    res.send(items);
+    res.send(items.map(function(item, index) {
+      item['seed'] = index + 1;
+      return item;
+    }));
   })
 })
 

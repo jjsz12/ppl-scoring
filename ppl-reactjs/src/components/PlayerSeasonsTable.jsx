@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Table } from 'semantic-ui-react';
 import _ from 'lodash';
-import { ordinal_suffix_of } from '../util';
+import { pop_colors_from_seed_value, ordinal_suffix_of } from '../util';
 
 class PlayerSeasonsTable extends Component {
   constructor(props) {
@@ -15,6 +15,9 @@ class PlayerSeasonsTable extends Component {
   fetchData() {
     fetch(process.env.REACT_APP_RELATIVE_PATH + '/player/' + this.props.player)
       .then(res => res.json())
+      .then(stats => {
+        return pop_colors_from_seed_value(stats);
+      })
       .then(stats => this.setState({ stats: stats }));
     fetch(process.env.REACT_APP_RELATIVE_PATH + '/dates/seasons')
       .then(res => res.json())
@@ -40,6 +43,9 @@ class PlayerSeasonsTable extends Component {
             </Table.HeaderCell>
             <Table.HeaderCell>
               Adjusted Points
+            </Table.HeaderCell>
+            <Table.HeaderCell>
+              Finish
             </Table.HeaderCell>
             <Table.HeaderCell>
               Division
@@ -81,7 +87,8 @@ class PlayerSeasonsTable extends Component {
                   <Table.Cell>{ item.season_id }{ dates_text }</Table.Cell>
                   <Table.Cell>{ item.points[0].total_points }</Table.Cell>
                   <Table.Cell>{ item.points[0].adjusted_points }</Table.Cell>
-                  <Table.Cell></Table.Cell>
+                  <Table.Cell>{ ordinal_suffix_of(item.seed) }</Table.Cell>
+                  <Table.Cell bgcolor={ item.color }>{ item.division }</Table.Cell>
                   <Table.Cell>{ item.wins }</Table.Cell>
                   <Table.Cell>{ item.losses }</Table.Cell>
                   <Table.Cell>{ item.wp.toFixed(3) } ({ ordinal_suffix_of(item.wp_rank) })</Table.Cell>

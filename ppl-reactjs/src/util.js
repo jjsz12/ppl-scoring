@@ -1,3 +1,24 @@
+export let pop_colors_from_seed_value = function(stats) {
+  let new_stats = stats.map(season_item => {
+    if (season_item.seed < 33) {
+      season_item.division = 'A';
+      season_item.color = '#EE82EE';
+    } else if (season_item.seed > 32 && season_item.seed < 65) {
+      season_item.division = 'B';
+      season_item.color = '#FFA500';
+    } else if (season_item.seed > 64 && season_item.seed < 97) {
+      season_item.division = 'C';
+      season_item.color = '#32CD32';
+    } else {
+      season_item.division = 'X';
+      season_item.color = '#FFFFFF';
+    }
+    return season_item;
+  });
+  console.log(new_stats);
+  return new_stats;
+}
+
 export let pop_colors_standings = function(standings) {
   let a_div = standings.slice(0, 32).map(item => {
     item['division'] = 'A';
