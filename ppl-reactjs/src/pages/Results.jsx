@@ -32,11 +32,11 @@ class Results extends Component {
 
   render() {
     return (
-      <div>
+      <div class="content">
         <h1>Results</h1>
         <SeasonSelect value={this.state.season} onChange={this.handleChange} />
         <WeekSelect value={this.state.week} onChange={this.handleChange} />
-        <Filter />
+        {/*<Filter />*/}
         <ResultsPane results={this.state.results} />
       </div>
     );

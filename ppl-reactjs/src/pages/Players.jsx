@@ -37,7 +37,7 @@ class Players extends Component {
 
   render() {
     return (
-      <div>
+      <div class="content">
         <h1>Players</h1>
         <PlayerSelect
           players={this.state.players}

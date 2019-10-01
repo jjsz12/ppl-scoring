@@ -1,37 +1,67 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import Button from '@material-ui/core/Button';
+import { Menu } from 'semantic-ui-react';
 
 class NavigationBar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeItem: 'home'
+    }
+  }
+
+  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+
   render() {
     return (
       <div className="navigation">
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton className="menuButton" color="inherit" aria-label="Menu">
-              <MenuIcon />
-            </IconButton>
-            <Link to="/">
-              <Button color="inherit">Home</Button>
-            </Link>
-            <Link to="/results">
-              <Button color="inherit">Results</Button>
-            </Link>
-            <Link to="/standings">
-              <Button color="inherit">Standings</Button>
-            </Link>
-            <Link to="/stats">
-              <Button color="inherit">Stats</Button>
-            </Link>
-            <Link to="/players">
-              <Button color="inherit">Players</Button>
-            </Link>
-          </Toolbar>
-        </AppBar>
+        <Menu fixed="top" inverted>
+          <Link to="/">
+            <Menu.Item
+              name='home'
+              active={this.state.activeItem === 'home'}
+              onClick={this.handleItemClick}
+            >
+              Home
+            </Menu.Item>
+          </Link>
+          <Link to="/results">
+            <Menu.Item
+              name='results'
+              active={this.state.activeItem === 'results'}
+              onClick={this.handleItemClick}
+            >
+              Results
+            </Menu.Item>
+          </Link>
+          <Link to="/standings">
+            <Menu.Item
+              name='standings'
+              active={this.state.activeItem === 'standings'}
+              onClick={this.handleItemClick}
+            >
+              Standings
+            </Menu.Item>
+          </Link>
+          <Link to="/stats">
+            <Menu.Item
+              name='stats'
+              active={this.state.activeItem === 'stats'}
+              onClick={this.handleItemClick}
+            >
+              Stats
+            </Menu.Item>
+          </Link>
+          <Link to="/players">
+            <Menu.Item
+              name='players'
+              active={this.state.activeItem === 'players'}
+              onClick={this.handleItemClick}
+            >
+              Players
+            </Menu.Item>
+          </Link>
+        </Menu>
       </div>
     );
   }
