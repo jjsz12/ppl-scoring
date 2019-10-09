@@ -1,30 +1,38 @@
 import React, { Component } from 'react';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-import NativeSelect from '@material-ui/core/NativeSelect';
+import { Dropdown, Label } from 'semantic-ui-react';
 
 class WeekSelect extends Component {
   render() {
+    const options = [
+      { key: 1, text: 1, value: 1 },
+      { key: 2, text: 2, value: 2 },
+      { key: 3, text: 3, value: 3 },
+      { key: 4, text: 4, value: 4 },
+      { key: 5, text: 5, value: 5 },
+      { key: 6, text: 6, value: 6 },
+      { key: 7, text: 7, value: 7 },
+      { key: 8, text: 8, value: 8 },
+      { key: 9, text: 9, value: 9 }
+    ];
+
     return (
-      <FormControl>
-        <InputLabel>Week</InputLabel>
-        <NativeSelect
-          value={this.props.value}
-          onChange={this.props.onChange}
-          input={<Input name="week" id="week-native" />}
+      <div>
+        <Label
+          horizontal
+          pointing='right'
+          size='large'
+          color='black'
         >
-          <option vaule={1}>1</option>
-          <option vaule={2}>2</option>
-          <option vaule={3}>3</option>
-          <option vaule={4}>4</option>
-          <option vaule={5}>5</option>
-          <option vaule={6}>6</option>
-          <option vaule={7}>7</option>
-          <option vaule={8}>8</option>
-          <option vaule={9}>9</option>
-        </NativeSelect>
-      </FormControl>
+          Week
+        </Label>
+        <Dropdown
+          value={ this.props.value }
+          onChange={ this.props.onChange }
+          options={ options }
+          selection
+          compact
+        />
+      </div>
     );
   }
 }

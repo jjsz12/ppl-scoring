@@ -7,7 +7,6 @@ import Filter from '../components/Filter.jsx';
 class Results extends Component {
   constructor(props) {
     super(props);
-    this.handleChange = this.handleChange.bind(this);
     this.state = {
       results: [],
       season: 16,
@@ -26,16 +25,20 @@ class Results extends Component {
     this.fetchData();
   }
 
-  handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value }, this.fetchData);
-  };
+  handleSeasonChange = (e, { value }) => {
+    this.setState({ season: value}, this.fetchData);
+  }
+
+  handleWeekChange = (e, { value }) => {
+    this.setState({ week: value}, this.fetchData);
+  }
 
   render() {
     return (
-      <div class="content">
+      <div className="content">
         <h1>Results</h1>
-        <SeasonSelect value={this.state.season} onChange={this.handleChange} />
-        <WeekSelect value={this.state.week} onChange={this.handleChange} />
+        <SeasonSelect value={this.state.season} onChange={this.handleSeasonChange} />
+        <WeekSelect value={this.state.week} onChange={this.handleWeekChange} />
         {/*<Filter />*/}
         <ResultsPane results={this.state.results} />
       </div>

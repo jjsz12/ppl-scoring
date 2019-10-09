@@ -28,13 +28,13 @@ class ResultTable extends Component {
             this.props.data.results.map(i => {
               let totalPoints = 0;
               return (
-                <Table.Row>
+                <Table.Row key={ i.player }>
                   <Table.Cell>{ i.player }</Table.Cell>
                   {
                     i.scores.map(j => {
                       totalPoints += j.points;
                       return (
-                        <React.Fragment>
+                        <React.Fragment key={ j.score + j.points }>
                           <Table.Cell>{ j.score }</Table.Cell>
                           <Table.Cell>{ j.points }</Table.Cell>
                         </React.Fragment>

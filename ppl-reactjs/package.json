@@ -4,8 +4,6 @@
   "private": true,
   "homepage": "https://jjsz12.github.io/ppl-scoring",
   "dependencies": {
-    "@material-ui/core": "^1.3.1",
-    "@material-ui/icons": "^2.0.1",
     "gh-pages": "^2.0.1",
     "lodash": "^4.17.11",
     "react": "^16.4.1",

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import SeasonSelect from '../components/SeasonSelect.jsx';
 import WeeksPlayedFilter from '../components/WeeksPlayedFilter.jsx';
-import StandingsTableSemantic from '../components/StandingsTableSemantic.jsx';
+import StandingsTable from '../components/StandingsTable.jsx';
 import _ from 'lodash';
 import { pop_colors_standings } from '../util';
 
@@ -45,9 +45,9 @@ class Standings extends Component {
     this.fetchData();
   }
 
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value }, this.fetchData);
-  };
+  handleChange = (e, { value }) => {
+    this.setState({ season: value}, this.fetchData);
+  }
 
   handleFilterChange = (e, { value }) => {
     let newStandings = this.state.standings.map(item => {
@@ -76,7 +76,7 @@ class Standings extends Component {
 
   render() {
     return (
-      <div class="content">
+      <div className="content">
         <h1>Standings</h1>
         <SeasonSelect
           value={this.state.season}
@@ -86,7 +86,7 @@ class Standings extends Component {
           value={this.state.min_weeks}
           onChange={this.handleFilterChange}
         />
-        <StandingsTableSemantic
+        <StandingsTable
           season={this.state.season}
           standings={this.state.standings}
           sortFunction={this.sortStandings}

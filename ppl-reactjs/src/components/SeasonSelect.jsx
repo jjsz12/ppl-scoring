@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-import NativeSelect from '@material-ui/core/NativeSelect';
+import { Dropdown, Label } from 'semantic-ui-react';
 
 class SeasonSelect extends Component {
   constructor(props) {
@@ -16,7 +13,16 @@ class SeasonSelect extends Component {
     console.log('Fetching: ' + process.env.REACT_APP_RELATIVE_PATH + '/dates/seasons')
     fetch(process.env.REACT_APP_RELATIVE_PATH + '/dates/seasons')
       .then(res => res.json())
-      .then(dates => this.setState({ dates: dates }));
+      .then(dates => {
+        let newDates = dates.map(item => {
+          return {
+            key: item._id,
+            text: item._id + ' -- (' + item.start + ' - ' + item.end + ')',
+            value: item._id
+          };
+        });
+        this.setState({ dates: newDates })
+      });
   }
 
   componentDidMount() {
@@ -25,24 +31,23 @@ class SeasonSelect extends Component {
 
   render() {
     return (
-      <FormControl>
-        <InputLabel>Season</InputLabel>
-        <NativeSelect
-          value={this.props.value}
-          onChange={this.props.onChange}
-          input={<Input name="season" id="season-native" />}
+      <div>
+        <Label
+          horizontal
+          pointing='right'
+          size='large'
+          color='black'
         >
-          {
-            this.state.dates.map(item => {
-              return (
-                <option value={ item._id } key={ item._id }>
-                  { item._id } -- ({ item.start } - { item.end })
-                </option>
-              );
-            })
-          }
-        </NativeSelect>
-      </FormControl>
+          Season
+        </Label>
+        <Dropdown
+          value={ this.props.value }
+          onChange={ this.props.onChange }
+          options={ this.state.dates }
+          selection
+          compact
+        />
+      </div>
     );
   }
 }

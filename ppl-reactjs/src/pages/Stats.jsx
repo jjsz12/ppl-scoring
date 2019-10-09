@@ -40,9 +40,9 @@ class Stats extends Component {
     this.fetchData();
   }
 
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value }, this.fetchData);
-  };
+  handleChange = (e, { value }) => {
+    this.setState({ season: value}, this.fetchData);
+  }
 
   handleFilterChange = (e, { value }) => {
     let newStats = this.state.stats.map(item => {

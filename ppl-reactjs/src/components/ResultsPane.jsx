@@ -8,7 +8,7 @@ class ResultsPane extends Component {
       return (
         <div>
           {this.props.results.map(group =>
-            <React.Fragment>
+            <React.Fragment key={ group._id.group_id }>
               <Divider horizontal>
                 <Header as='h4'>
                   <Icon name='group' />
