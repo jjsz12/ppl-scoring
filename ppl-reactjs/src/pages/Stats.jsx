@@ -4,6 +4,7 @@ import StatsTable from '../components/StatsTable.jsx';
 import WeeksPlayedFilter from '../components/WeeksPlayedFilter.jsx';
 import _ from 'lodash';
 import { pop_colors_stats } from '../util';
+import { Container, Divider } from 'semantic-ui-react';
 
 class Stats extends Component {
   constructor(props) {
@@ -19,16 +20,6 @@ class Stats extends Component {
     console.log('Fetching: ' + process.env.REACT_APP_RELATIVE_PATH + '/stats/' + this.state.season)
     fetch(process.env.REACT_APP_RELATIVE_PATH + '/stats/' + this.state.season)
       .then(res => res.json())
-      .then(stats => {
-        console.log(stats);
-        return stats;
-      })
-      // .then(stats => {
-      //   return stats.map((item, index) => {
-      //     item.seed = index+1;
-      //     return item;
-      //   });
-      // })
       .then(stats => {
         return pop_colors_stats(stats);
       })
@@ -89,12 +80,16 @@ class Stats extends Component {
           value={this.state.min_weeks}
           onChange={this.handleFilterChange}
         />
-        <StatsTable
-          season={this.state.season}
-          stats={this.state.stats}
-          sortFunction={this.sortTable}
-          reverseFunction={this.reverseTable}
-        />
+      {/*<Legend />*/}
+        <Container>
+          <Divider />
+          <StatsTable
+            season={this.state.season}
+            stats={this.state.stats}
+            sortFunction={this.sortTable}
+            reverseFunction={this.reverseTable}
+          />
+        </Container>
       </div>
     );
   }

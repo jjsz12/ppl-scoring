@@ -1,23 +1,31 @@
 import React, { Component } from 'react';
-import Grid from '@material-ui/core/Grid';
 import ResultTable from './ResultTable.jsx';
-import Paper from '@material-ui/core/Paper';
+import { Container, Divider, Header, Icon } from 'semantic-ui-react';
 
 class ResultsPane extends Component {
   render() {
     if (this.props.results.length !== 0) {
       return (
-        <Grid container spacing={24}>
+        <div>
           {this.props.results.map(group =>
-            <Grid item xs={12}>
-              <ResultTable data={group} />
-            </Grid>
+            <React.Fragment>
+              <Divider horizontal>
+                <Header as='h4'>
+                  <Icon name='group' />
+                  Group { group._id.group_id } ({ group.location })
+                </Header>
+              </Divider>
+              <Container>
+                <ResultTable data={ group } />
+              </Container>
+            </React.Fragment>
           )}
-        </Grid>
+          <Divider />
+        </div>
       );
     } else {
       return (
-        <Paper>No results found.</Paper>
+        <div>No results found.</div>
       );
     }
   }

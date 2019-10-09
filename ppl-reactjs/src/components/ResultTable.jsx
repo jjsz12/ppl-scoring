@@ -1,61 +1,53 @@
 import React, { Component } from 'react';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import { Table } from 'semantic-ui-react';
 
 class ResultTable extends Component {
   render() {
     return (
-      <Paper>
-        <Table padding="dense">
-          <TableHead>
-            <TableRow>
-              <TableCell>Group {this.props.data._id.group_id} ({this.props.data.location})</TableCell>
-              <TableCell colSpan={2}>{this.props.data.games[0]}</TableCell>
-              <TableCell colSpan={2}>{this.props.data.games[1]}</TableCell>
-              <TableCell colSpan={2}>{this.props.data.games[2]}</TableCell>
-              <TableCell></TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Players</TableCell>
-              <TableCell>Game 1 Scores </TableCell>
-              <TableCell>Points</TableCell>
-              <TableCell>Game 2 Scores </TableCell>
-              <TableCell>Points</TableCell>
-              <TableCell>Game 3 Scores </TableCell>
-              <TableCell>Points</TableCell>
-              <TableCell>Total Points</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {
-              this.props.data.results.map(i => {
-                let totalPoints = 0;
-                return (
-                  <TableRow>
-                    <TableCell>{i.player}</TableCell>
-                    {
-                      i.scores.map(j => {
-                        totalPoints += j.points;
-                        return (
-                          <React.Fragment>
-                            <TableCell>{j.score}</TableCell>
-                            <TableCell>{j.points}</TableCell>
-                          </React.Fragment>
-                        );
-                      })
-                    }
-                    <TableCell>{totalPoints}</TableCell>
-                  </TableRow>
-                );
-              })
-            }
-          </TableBody>
-        </Table>
-      </Paper>
+      <Table singleLine celled structured columns={8}>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell rowSpan='2'>Players</Table.HeaderCell>
+            <Table.HeaderCell colSpan='2' textAlign='center'>{ this.props.data.games[0] }</Table.HeaderCell>
+            <Table.HeaderCell colSpan='2' textAlign='center'>{ this.props.data.games[1] }</Table.HeaderCell>
+            <Table.HeaderCell colSpan='2' textAlign='center'>{ this.props.data.games[2] }</Table.HeaderCell>
+            <Table.HeaderCell rowSpan='2'>Total Points</Table.HeaderCell>
+          </Table.Row>
+          <Table.Row>
+
+            <Table.HeaderCell>Scores</Table.HeaderCell>
+            <Table.HeaderCell>Points</Table.HeaderCell>
+            <Table.HeaderCell>Scores</Table.HeaderCell>
+            <Table.HeaderCell>Points</Table.HeaderCell>
+            <Table.HeaderCell>Scores</Table.HeaderCell>
+            <Table.HeaderCell>Points</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
+          {
+            this.props.data.results.map(i => {
+              let totalPoints = 0;
+              return (
+                <Table.Row>
+                  <Table.Cell>{ i.player }</Table.Cell>
+                  {
+                    i.scores.map(j => {
+                      totalPoints += j.points;
+                      return (
+                        <React.Fragment>
+                          <Table.Cell>{ j.score }</Table.Cell>
+                          <Table.Cell>{ j.points }</Table.Cell>
+                        </React.Fragment>
+                      );
+                    })
+                  }
+                  <Table.Cell>{ totalPoints }</Table.Cell>
+                </Table.Row>
+              );
+            })
+          }
+        </Table.Body>
+      </Table>
     );
   }
 }
