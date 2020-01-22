@@ -2,6 +2,7 @@ from selenium import webdriver
 from pymongo import MongoClient
 import ConfigParser
 import sys
+from datetime import datetime
 
 # read settings file
 config = ConfigParser.RawConfigParser()
@@ -38,6 +39,7 @@ if pull_new_data:
             driver.get(url)
             # get the listed date for the week
             date = driver.find_element_by_xpath("//div[@class='blockLeft']/h1/small").text.split('-')[1].strip()
+            date_iso = datetime.strptime(date, '%B %d, %Y').isoformat()
             if update_date_only:
                 print 'Updating date: {}/{} {}'.format(season_id, week_id, date)
                 collection.update_many(
@@ -69,6 +71,7 @@ if pull_new_data:
                             # include their corresponding score and points earned for current game
                             document = dict()
                             document['date'] = date
+                            document['date_iso'] = date_iso
                             document['season_id'] = int(season_id)
                             document['week_id'] = int(week_id)
                             document['group_id'] = int(group_id)
@@ -77,7 +80,11 @@ if pull_new_data:
                             document['position'] = int(player_index)
                             document['game_name'] = game_name
                             document['location'] = location
-                            document['score'] = scores[player_index].text
+                            document['score_str'] = scores[player_index].text
+                            try:
+                                document['score'] = int(scores[player_index].text.replace(',', ''))
+                            except ValueError:
+                                document['score'] = 0
                             document['points'] = int(points[player_index].text)
                             # print document
                             # sys.exit(1)
@@ -116,6 +123,7 @@ if create_views:
                         'scores': {
                             '$push': {
                                 'score': '$score',
+                                'score_str': '$score_str',
                                 'points': '$points'
                             }
                         },

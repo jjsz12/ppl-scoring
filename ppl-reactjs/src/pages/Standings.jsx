@@ -4,13 +4,14 @@ import WeeksPlayedFilter from '../components/WeeksPlayedFilter.jsx';
 import StandingsTable from '../components/StandingsTable.jsx';
 import _ from 'lodash';
 import { pop_colors_standings } from '../util';
+import { Container } from 'semantic-ui-react';
 
 class Standings extends Component {
   constructor(props) {
     super(props);
     this.state = {
       standings: [],
-      season: 16,
+      season: 17,
       min_weeks: 1
     };
   }

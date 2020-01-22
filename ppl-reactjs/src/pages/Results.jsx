@@ -9,7 +9,7 @@ class Results extends Component {
     super(props);
     this.state = {
       results: [],
-      season: 16,
+      season: 17,
       week: 9
     };
   }

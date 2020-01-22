@@ -35,7 +35,7 @@ class ResultTable extends Component {
                       totalPoints += j.points;
                       return (
                         <React.Fragment key={ j.score + j.points }>
-                          <Table.Cell>{ j.score }</Table.Cell>
+                          <Table.Cell>{ j.score_str }</Table.Cell>
                           <Table.Cell>{ j.points }</Table.Cell>
                         </React.Fragment>
                       );
