@@ -61,6 +61,15 @@ class NavigationBar extends Component {
               Players
             </Menu.Item>
           </Link>
+          <Link to="/machines">
+            <Menu.Item
+              name='machines'
+              active={this.state.activeItem === 'machines'}
+              onClick={this.handleItemClick}
+            >
+              Machines
+            </Menu.Item>
+          </Link>
         </Menu>
       </div>
     );

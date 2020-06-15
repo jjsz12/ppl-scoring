@@ -42,7 +42,7 @@ class StatsTable extends Component {
     const { column, direction } = this.state
 
     return (
-      <Table sortable celled compact>
+      <Table sortable celled compact textAlign='center'>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell
@@ -67,7 +67,7 @@ class StatsTable extends Component {
               sorted={ column === 'adjusted_points' ? direction : null}
               onClick={this.handleSort('adjusted_points', function(o) { return o.points[0].adjusted_points; })}
             >
-              Adjusted Points
+              Adj. Points
             </Table.HeaderCell>
             <Table.HeaderCell
               sorted={ column === 'division' ? direction : null}
@@ -131,7 +131,7 @@ class StatsTable extends Component {
               return (
                 <Table.Row hidden={ item.hidden } key={ item.player }>
                   <Table.Cell>{ item.seed }</Table.Cell>
-                  <Table.Cell>{ item.player }</Table.Cell>
+                  <Table.Cell textAlign='left'>{ item.player }</Table.Cell>
                   <Table.Cell>{ item.points[0].total_points }</Table.Cell>
                   <Table.Cell>{ item.points[0].adjusted_points }</Table.Cell>
                   <Table.Cell bgcolor={ item.points[0].color }>{ item.points[0].division }</Table.Cell>

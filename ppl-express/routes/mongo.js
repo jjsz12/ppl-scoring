@@ -119,7 +119,6 @@ router.get('/player/:player', function(req, res, next) {
       }));
     });
   });
-
 });
 
 router.get('/stats/:season_id', function(req, res, next) {
@@ -158,7 +157,80 @@ router.get('/stats/:season_id', function(req, res, next) {
       item['seed'] = index + 1;
       return item;
     }));
-  })
+  });
+});
+
+router.get('/machineStats', function(req, res, next) {
+  console.log(req.params);
+  const collection = this.db.collection('scores');
+  const lookup = { '$lookup': {
+    from: 'game_catalog',
+    localField: 'game_name',
+    foreignField: 'alt_titles',
+    as: 'game_info'
+  }};
+  const project = { '$project': {
+    _id: 0,
+    game_info: { '$arrayElemAt': ['$game_info', 0] },
+    score: 1,
+    date_iso: 1,
+    points: 1,
+    season_id: 1,
+    player: 1,
+    week_id: 1,
+    group_id: 1,
+    location: 1
+  }};
+  const group = { '$group': {
+    '_id': '$game_info.title',
+    title: { '$first': '$game_info.title' },
+    title_sort: { '$first': '$game_info.title_sort' },
+    year: { '$first': '$game_info.year' },
+    mfr: { '$first': '$game_info.mfr' },
+    pinburgh_category: { '$first': '$game_info.pinburgh_category' },
+    scores: { '$push': {
+      season_id: '$season_id',
+      score: '$score',
+      location: '$location'
+    } },
+    min_score: { '$min': '$score' },
+    max_score: { '$max': '$score' },
+    avg_score: { '$avg': '$score' },
+    sum_score: { '$sum': '$score' },
+    game_ids: {
+      '$addToSet': {
+        season_id: '$season_id',
+        week_id: '$week_id',
+        group_id: '$group_id',
+        location: '$location',
+        date_iso: '$date_iso',
+      }
+    }
+  }};
+  const sort = { '$sort': { 'title_sort': 1 } }
+  collection.aggregate(
+    [lookup, project, group, sort]
+  ).toArray(function(err, arr) {
+    res.send(arr);
+  });
+});
+
+router.get('/manufacturers', function(req, res, next) {
+  console.log(req.params);
+  const collection = this.db.collection('game_catalog');
+  collection.distinct('mfr', (err, items) => {
+    items.sort();
+    res.send(items);
+  });
+});
+
+router.get('/locations', function(req, res, next) {
+  console.log(req.params);
+  const collection = this.db.collection('scores');
+   collection.distinct('location', (err, locs) => {
+     locs.sort();
+     res.send(locs);
+   });
 })
 
 module.exports = router;

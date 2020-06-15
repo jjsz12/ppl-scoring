@@ -42,7 +42,7 @@ class StandingsTable extends Component {
     const { column, direction } = this.state
 
     return (
-      <Table sortable celled compact>
+      <Table sortable celled compact textAlign='center'>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell
@@ -67,13 +67,13 @@ class StandingsTable extends Component {
               sorted={column === 'adjusted_points' ? direction : null}
               onClick={this.handleSort('adjusted_points', function(o) { return o.adjusted_points; })}
             >
-              Adjusted Points
+              Adj. Points
             </Table.HeaderCell>
             <Table.HeaderCell
               sorted={column === 'average_points' ? direction : null}
               onClick={this.handleSort('average_points', function(o) { return o.average_points; })}
             >
-              Average Points
+              Avg. Points
             </Table.HeaderCell>
             <Table.HeaderCell
               sorted={column === 'division' ? direction : null}
@@ -85,55 +85,55 @@ class StandingsTable extends Component {
               sorted={column === 'week_1' ? direction : null}
               onClick={this.handleSort('week_1', function(o) { return o.points.week_1 || ''; })}
             >
-              Week 1
+              W1
             </Table.HeaderCell>
             <Table.HeaderCell
               sorted={column === 'week_2' ? direction : null}
               onClick={this.handleSort('week_2', function(o) { return o.points.week_2 || ''; })}
             >
-              Week 2
+              W2
             </Table.HeaderCell>
             <Table.HeaderCell
               sorted={column === 'week_3' ? direction : null}
               onClick={this.handleSort('week_3', function(o) { return o.points.week_3 || ''; })}
             >
-              Week 3
+              W3
             </Table.HeaderCell>
             <Table.HeaderCell
               sorted={column === 'week_4' ? direction : null}
               onClick={this.handleSort('week_4', function(o) { return o.points.week_4 || ''; })}
             >
-              Week 4
+              W4
             </Table.HeaderCell>
             <Table.HeaderCell
               sorted={column === 'week_5' ? direction : null}
               onClick={this.handleSort('week_5', function(o) { return o.points.week_5 || ''; })}
             >
-              Week 5
+              W5
             </Table.HeaderCell>
             <Table.HeaderCell
               sorted={column === 'week_6' ? direction : null}
               onClick={this.handleSort('week_6', function(o) { return o.points.week_6 || ''; })}
             >
-              Week 6
+              W6
             </Table.HeaderCell>
             <Table.HeaderCell
               sorted={column === 'week_7' ? direction : null}
               onClick={this.handleSort('week_7', function(o) { return o.points.week_7 || ''; })}
             >
-              Week 7
+              W7
             </Table.HeaderCell>
             <Table.HeaderCell
               sorted={column === 'week_8' ? direction : null}
               onClick={this.handleSort('week_8', function(o) { return o.points.week_8 || ''; })}
             >
-              Week 8
+              W8
             </Table.HeaderCell>
             <Table.HeaderCell
               sorted={column === 'makeup_week' ? direction : null}
               onClick={this.handleSort('makeup_week', function(o) { return o.points.week_9 || ''; })}
             >
-              Makeup Week
+              Makeup
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
@@ -143,7 +143,7 @@ class StandingsTable extends Component {
               return (
                 <Table.Row hidden={ item.hidden } key={ item._id.player }>
                   <Table.Cell>{ item.seed }</Table.Cell>
-                  <Table.Cell>{ item._id.player }</Table.Cell>
+                  <Table.Cell textAlign='left'>{ item._id.player }</Table.Cell>
                   <Table.Cell>{ item.total_points }</Table.Cell>
                   <Table.Cell>{ item.adjusted_points }</Table.Cell>
                   <Table.Cell>{ item.average_points.toFixed(2) }</Table.Cell>

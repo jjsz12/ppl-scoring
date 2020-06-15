@@ -2,15 +2,14 @@ import React, { Component } from 'react';
 import ResultsPane from '../components/ResultsPane.jsx';
 import SeasonSelect from '../components/SeasonSelect.jsx';
 import WeekSelect from '../components/WeekSelect.jsx';
-import Filter from '../components/Filter.jsx';
 
 class Results extends Component {
   constructor(props) {
     super(props);
     this.state = {
       results: [],
-      season: 17,
-      week: 9
+      season: 20,
+      week: 8
     };
   }
 
@@ -39,7 +38,6 @@ class Results extends Component {
         <h1>Results</h1>
         <SeasonSelect value={this.state.season} onChange={this.handleSeasonChange} />
         <WeekSelect value={this.state.week} onChange={this.handleWeekChange} />
-        {/*<Filter />*/}
         <ResultsPane results={this.state.results} />
       </div>
     );

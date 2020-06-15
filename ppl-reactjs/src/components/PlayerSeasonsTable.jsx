@@ -32,7 +32,7 @@ class PlayerSeasonsTable extends Component {
 
   render() {
     return (
-      <Table celled compact>
+      <Table celled compact textAlign='center'>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>
@@ -42,7 +42,7 @@ class PlayerSeasonsTable extends Component {
               Total Points
             </Table.HeaderCell>
             <Table.HeaderCell>
-              Adjusted Points
+              Adj. Points
             </Table.HeaderCell>
             <Table.HeaderCell>
               Finish
@@ -84,7 +84,7 @@ class PlayerSeasonsTable extends Component {
                 '';
               return (
                 <Table.Row key={ item.season_id }>
-                  <Table.Cell>{ item.season_id }{ dates_text }</Table.Cell>
+                  <Table.Cell textAlign='left'>{ item.season_id }{ dates_text }</Table.Cell>
                   <Table.Cell>{ item.points[0].total_points }</Table.Cell>
                   <Table.Cell>{ item.points[0].adjusted_points }</Table.Cell>
                   <Table.Cell>{ ordinal_suffix_of(item.seed) }</Table.Cell>

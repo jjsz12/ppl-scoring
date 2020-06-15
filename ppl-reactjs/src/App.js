@@ -10,6 +10,7 @@ import Results from './pages/Results.jsx';
 import Standings from './pages/Standings.jsx';
 import Stats from './pages/Stats.jsx';
 import Players from './pages/Players.jsx';
+import Machines from './pages/Machines.jsx';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
@@ -34,6 +35,7 @@ class App extends Component {
           <Route exact path="/standings" component={Standings} />
           <Route exact path="/stats" component={Stats} />
           <Route exact path="/players" component={Players} />
+          <Route exact path="/machines" component={Machines} />
         </div>
       </Router>
     );

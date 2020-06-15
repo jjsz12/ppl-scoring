@@ -11,7 +11,7 @@ class Stats extends Component {
     super(props);
     this.state = {
       stats: [],
-      season: 17,
+      season: 20,
       min_weeks: 3
     };
   }

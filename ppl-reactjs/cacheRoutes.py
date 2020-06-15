@@ -3,7 +3,7 @@ import ast
 import os
 
 base_url = 'http://localhost:3001'
-seasons = range(5,17)
+seasons = [5,6,7,8,9,10,11,12,13,14,15,16,17,19,20]
 weeks = range(1,10)
 stats_route = '/stats/{season}'
 standings_route = '/standings/{season}'
