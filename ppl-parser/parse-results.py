@@ -38,6 +38,7 @@ if pull_new_data:
             print 'Fetching data from {}'.format(url)
             driver.get(url)
             # get the listed date for the week
+            # TODO: handle "selenium.common.exceptions.NoSuchElementException"
             date = driver.find_element_by_xpath("//div[@class='blockLeft']/h1/small").text.split('-')[1].strip()
             date_iso = datetime.strptime(date, '%B %d, %Y').isoformat()
             if update_date_only:
