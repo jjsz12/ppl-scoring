@@ -11,6 +11,9 @@ results_route = '/results/{season}/{week}'
 dates_route = '/dates/seasons'
 players_route = '/players'
 player_route = '/player/{player}'
+machine_stats_route = '/machineStats'
+manufacturers_route = '/manufacturers'
+locations_route = '/locations'
 
 def save(route):
     print 'Caching data route: {}'.format(route)
@@ -45,3 +48,7 @@ for season in seasons:
         os.makedirs('build/results/{}'.format(season))
     for week in weeks:
         save(results_route.format(season=season, week=week))
+
+save(machine_stats_route)
+save(manufacturers_route)
+save(locations_route)
