@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Dropdown } from 'semantic-ui-react';
 
 class FilterYear extends Component {
@@ -17,8 +18,8 @@ class FilterYear extends Component {
         { key: '8', value: [2005, 2009], text: '2005-2009' },
         { key: '9', value: [2010, 2014], text: '2010-2014' },
         { key: '10', value: [2015, 2019], text: '2015-2019' },
-        { key: '11', value: [2020, 2024], text: '2020-2024' }
-      ]
+        { key: '11', value: [2020, 2024], text: '2020-2024' },
+      ],
     };
   }
 
@@ -29,12 +30,16 @@ class FilterYear extends Component {
         multiple
         selection
         closeOnChange
-        placeholder='Year'
-        options={ this.state.options }
-        onChange={ this.props.onChange }
+        placeholder="Year"
+        options={this.state.options}
+        onChange={this.props.onChange}
       />
     );
   }
 }
+
+FilterYear.propTypes = {
+  onChange: PropTypes.func.isRequired,
+};
 
 export default FilterYear;

@@ -7,7 +7,7 @@ import FilterSeason from '../components/FilterSeason';
 import FilterLocation from '../components/FilterLocation';
 import MachinesTable from '../components/MachinesTable';
 import {
-  Container, Divider, Dropdown, Grid, Label, Loader, Segment,
+  Container, Divider, Grid, Label, Loader, Segment,
 } from 'semantic-ui-react';
 
 class Machines extends Component {
@@ -162,7 +162,7 @@ class Machines extends Component {
   render() {
     const { loading } = this.state;
     return (
-      <div className="content">
+      <div className="page-content">
         <h1>Machines</h1>
         <Grid columns={3} centered>
           <Grid.Row>

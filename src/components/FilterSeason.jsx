@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Dropdown } from 'semantic-ui-react';
 
 class FilterSeason extends Component {
@@ -10,19 +11,21 @@ class FilterSeason extends Component {
   }
 
   componentDidMount() {
-    console.log('Fetching: ' + process.env.REACT_APP_RELATIVE_PATH + '/dates/seasons')
+    console.log(
+      'Fetching: ' + process.env.REACT_APP_RELATIVE_PATH + '/dates/seasons'
+    );
     fetch(process.env.REACT_APP_RELATIVE_PATH + '/dates/seasons')
-      .then(res => res.json())
-      .then(dates => {
+      .then((res) => res.json())
+      .then((dates) => {
         console.log(dates);
-        let newDates = dates.map(item => {
+        let newDates = dates.map((item) => {
           return {
             key: item._id,
             text: item._id + ' -- (' + item.start + ' - ' + item.end + ')',
-            value: item._id
+            value: item._id,
           };
         });
-        this.setState({ options: newDates })
+        this.setState({ options: newDates });
       });
   }
 
@@ -33,12 +36,16 @@ class FilterSeason extends Component {
         multiple
         selection
         closeOnChange
-        placeholder='Season'
-        options={ this.state.options }
-        onChange={ this.props.onChange }
+        placeholder="Season"
+        options={this.state.options}
+        onChange={this.props.onChange}
       />
-    )
+    );
   }
 }
+
+FilterSeason.propTypes = {
+  onChange: PropTypes.func.isRequired,
+};
 
 export default FilterSeason;

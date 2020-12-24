@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Dropdown } from 'semantic-ui-react';
 
 class FilterPinburgh extends Component {
@@ -10,8 +11,8 @@ class FilterPinburgh extends Component {
         { key: '2', value: 2, text: 'Early SS' },
         { key: '3', value: 3, text: 'Late SS/Early DMD' },
         { key: '4', value: 4, text: 'Late DMD/LCD' },
-        { key: '0', value: 0, text: 'Uncategorized' }
-      ]
+        { key: '0', value: 0, text: 'Uncategorized' },
+      ],
     };
   }
 
@@ -22,12 +23,16 @@ class FilterPinburgh extends Component {
         multiple
         selection
         closeOnChange
-        placeholder='Pinburgh Category'
-        options={ this.state.options }
-        onChange={ this.props.onChange }
+        placeholder="Pinburgh Category"
+        options={this.state.options}
+        onChange={this.props.onChange}
       />
     );
   }
 }
+
+FilterPinburgh.propTypes = {
+  onChange: PropTypes.func.isRequired,
+};
 
 export default FilterPinburgh;

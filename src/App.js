@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import {
-  HashRouter as Router,
-  Route
-} from 'react-router-dom';
+import { HashRouter as Router, Route } from 'react-router-dom';
 import './App.css';
 import NavigationBar from './components/NavigationBar.jsx';
 import Home from './pages/Home.jsx';
@@ -11,18 +8,6 @@ import Standings from './pages/Standings.jsx';
 import Stats from './pages/Stats.jsx';
 import Players from './pages/Players.jsx';
 import Machines from './pages/Machines.jsx';
-import { withStyles } from '@material-ui/core/styles';
-
-const styles = theme => ({
-  root: {
-    flexGrow: 1,
-  },
-  paper: {
-    padding: theme.spacing.unit * 2,
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },
-});
 
 class App extends Component {
   render() {
@@ -42,4 +27,4 @@ class App extends Component {
   }
 }
 
-export default withStyles(styles)(App);
+export default App;

@@ -70,7 +70,7 @@ class Stats extends Component {
 
   render() {
     return (
-      <div class="content">
+      <div className="page-content">
         <h1>Stats</h1>
         <SeasonSelect
           value={this.state.season}

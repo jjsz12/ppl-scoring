@@ -77,7 +77,7 @@ class Standings extends Component {
 
   render() {
     return (
-      <div className="content">
+      <div className="page-content">
         <h1>Standings</h1>
         <SeasonSelect
           value={this.state.season}

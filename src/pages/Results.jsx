@@ -34,7 +34,7 @@ class Results extends Component {
 
   render() {
     return (
-      <div className="content">
+      <div className="page-content">
         <h1>Results</h1>
         <SeasonSelect value={this.state.season} onChange={this.handleSeasonChange} />
         <WeekSelect value={this.state.week} onChange={this.handleWeekChange} />

@@ -4,9 +4,10 @@ import HomeSummary from '../components/HomeSummary.jsx';
 class Home extends Component {
   render() {
     return (
-      <div class="content">
+      <div className="page-content">
         <h1>Home</h1>
-        {/*<HomeSummary />*/}
+        <br />
+        <HomeSummary />
       </div>
     );
   }
